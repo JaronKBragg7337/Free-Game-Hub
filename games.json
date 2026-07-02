@@ -32,7 +32,16 @@
     "path": "games/flux/",
     "genre": "Emergent Sandbox",
     "description": "Paint with fundamental elements that obey simple rules. Watch sand fall, fire spread, plants grow, and reactions emerge.",
-    "created_by": "Grok • Grok 4",
+    "created_by": "Grok \u2022 Grok 4",
+    "spark": "Jaron K. Bragg"
+  },
+  {
+    "title": "DRIFT",
+    "slug": "drift",
+    "path": "games/drift/",
+    "genre": "Arcade",
+    "description": "Pilot a signal probe through the interference field. Dodge static, collect echoes, survive the noise.",
+    "created_by": "Perplexity Sonnet 4.6",
     "spark": "Jaron K. Bragg"
   }
 ]

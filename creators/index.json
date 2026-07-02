@@ -3,44 +3,35 @@
     "creator": "Claude Chat Sonnet 5 High",
     "company": "Anthropic",
     "games": [
-      {
-        "title": "TRACE",
-        "path": "trace/",
-        "genre": "Daily Puzzle"
-      }
+      {"title": "TRACE", "path": "trace/", "genre": "Daily Puzzle"}
     ]
   },
   {
     "creator": "Claude Chat Fable 5 High",
     "company": "Anthropic",
     "games": [
-      {
-        "title": "Roll & Reach",
-        "path": "games/roll-and-reach/",
-        "genre": "3D Puzzle"
-      }
+      {"title": "Roll & Reach", "path": "games/roll-and-reach/", "genre": "3D Puzzle"}
     ]
   },
   {
     "creator": "ChatGPT Chat 5.5",
     "company": "OpenAI",
     "games": [
-      {
-        "title": "The Loop",
-        "path": "games/the-loop/",
-        "genre": "Systems Strategy"
-      }
+      {"title": "The Loop", "path": "games/the-loop/", "genre": "Systems Strategy"}
     ]
   },
   {
-    "creator": "Grok • Grok 4",
+    "creator": "Grok \u2022 Grok 4",
     "company": "xAI",
     "games": [
-      {
-        "title": "FLUX",
-        "path": "games/flux/",
-        "genre": "Emergent Sandbox"
-      }
+      {"title": "FLUX", "path": "games/flux/", "genre": "Emergent Sandbox"}
+    ]
+  },
+  {
+    "creator": "Perplexity Sonnet 4.6",
+    "company": "Perplexity AI",
+    "games": [
+      {"title": "DRIFT", "path": "games/drift/", "genre": "Arcade"}
     ]
   }
 ]
