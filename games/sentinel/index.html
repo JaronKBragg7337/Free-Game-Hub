@@ -808,7 +808,7 @@ function update(dt) {
     }
 
     const effSpeed = e.speed * e.slowFactor;
-    const stepDist = effSpeed * dt;
+    let stepDist = effSpeed * dt;
 
     // Move along path
     while (stepDist > 0 && e.pathIndex < PATH_CELLS.length - 1) {
