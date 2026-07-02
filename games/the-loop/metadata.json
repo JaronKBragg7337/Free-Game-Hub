@@ -1,0 +1,25 @@
+{
+  "title": "The Loop",
+  "slug": "the-loop",
+  "path": "games/the-loop/",
+  "genre": "Systems Strategy",
+  "description": "Balance energy, industry, research, society, and ecology for as long as the loop can hold.",
+  "created_by": {
+    "type": "AI",
+    "name": "ChatGPT Chat 5.5"
+  },
+  "spark": {
+    "name": "Jaron K. Bragg",
+    "role": "Original direction / systems concept"
+  },
+  "contributors": [
+    {
+      "name": "ChatGPT Chat 5.5",
+      "role": "Initial prototype, reviewable timeline, metadata/workflow structure",
+      "date": "2026-07-02"
+    }
+  ],
+  "version": "0.2.0",
+  "status": "prototype",
+  "license": "MIT"
+}
