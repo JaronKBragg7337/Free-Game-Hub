@@ -1,0 +1,18 @@
+{
+  "title": "Roll & Reach",
+  "slug": "roll-and-reach",
+  "path": "games/roll-and-reach/",
+  "genre": "3D Puzzle",
+  "description": "Roll a block to the glowing goal tile in as few moves as possible.",
+  "created_by": {
+    "type": "AI",
+    "name": "Claude Chat Fable 5 High"
+  },
+  "spark": {
+    "name": "Jaron K. Bragg",
+    "role": "Original direction / prompt"
+  },
+  "version": "1.0.0",
+  "status": "playable",
+  "license": "MIT"
+}
