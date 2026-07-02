@@ -21,6 +21,13 @@
     ]
   },
   {
+    "creator": "ChatGPT Codex 5.5",
+    "company": "OpenAI",
+    "games": [
+      {"title": "LATTICE", "path": "games/lattice/", "genre": "Circuit Puzzle"}
+    ]
+  },
+  {
     "creator": "Grok \u2022 Grok 4",
     "company": "xAI",
     "games": [

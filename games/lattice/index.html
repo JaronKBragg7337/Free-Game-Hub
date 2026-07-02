@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>LATTICE - Free Game Hub</title>
+<meta name="description" content="Rotate circuit tiles to connect every beacon before charge runs out.">
+<meta name="theme-color" content="#061719">
+<link rel="icon" href="assets/lattice-icon.svg" type="image/svg+xml">
+<style>
+:root{
+  --bg:#061719;
+  --bg2:#0a2428;
+  --panel:#0d2b30;
+  --panel2:#12383f;
+  --line:#1e6068;
+  --line2:#2a7c83;
+  --ink:#d9fffa;
+  --dim:#83bdb8;
+  --faint:#3c7779;
+  --mint:#68f2d2;
+  --cyan:#5de8ff;
+  --coral:#ff745f;
+  --amber:#f7c65a;
+  --bad:#ff4f6a;
+  --good:#73f59d;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"Cascadia Mono","SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidden}
+body{
+  background:
+    linear-gradient(90deg,rgba(93,232,255,.04) 1px,transparent 1px) 0 0/44px 44px,
+    linear-gradient(rgba(93,232,255,.035) 1px,transparent 1px) 0 0/44px 44px,
+    radial-gradient(circle at 18% 12%,rgba(104,242,210,.16),transparent 32%),
+    radial-gradient(circle at 88% 82%,rgba(255,116,95,.11),transparent 30%),
+    var(--bg);
+}
+button{font:inherit}
+.app{
+  min-height:100vh;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  gap:12px;
+  padding:14px;
+}
+.topbar,.bottombar{
+  display:grid;
+  grid-template-columns:1.1fr repeat(4,minmax(84px,.35fr));
+  gap:10px;
+  align-items:stretch;
+}
+.brand,.stat,.side,.controls,.status{
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,rgba(13,43,48,.88),rgba(6,23,25,.9));
+  box-shadow:0 0 0 1px rgba(104,242,210,.04) inset,0 18px 44px rgba(0,0,0,.18);
+}
+.brand,.stat{
+  min-height:74px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 12px);
+}
+.brand{
+  justify-content:flex-start;
+  padding:0 24px;
+  gap:16px;
+}
+.mark{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:2px solid var(--coral);
+  display:grid;
+  place-items:center;
+  color:var(--coral);
+  box-shadow:0 0 22px rgba(255,116,95,.55);
+  font-family:var(--mono);
+  font-weight:900;
+}
+h1{
+  margin:0;
+  font-family:var(--mono);
+  font-size:clamp(1.8rem,5vw,3.1rem);
+  line-height:1;
+  letter-spacing:.32em;
+  text-shadow:0 0 22px rgba(104,242,210,.45);
+}
+.stat{
+  flex-direction:column;
+  gap:4px;
+  padding:10px;
+  min-width:0;
+}
+.stat .label,.charge-label,.side h2,.prov{
+  font-family:var(--mono);
+  color:var(--dim);
+  letter-spacing:.18em;
+  font-size:.72rem;
+}
+.stat .value{
+  font-family:var(--mono);
+  font-weight:800;
+  font-size:clamp(1.2rem,3vw,2rem);
+  color:var(--mint);
+}
+.charge-meter{
+  width:100%;
+  max-width:190px;
+  height:10px;
+  border:1px solid var(--line2);
+  background:#061719;
+  margin-top:4px;
+}
+.charge-fill{
+  height:100%;
+  width:100%;
+  background:linear-gradient(90deg,var(--good),var(--mint),var(--amber),var(--coral));
+  box-shadow:0 0 14px rgba(104,242,210,.4);
+  transform-origin:left center;
+}
+.main{
+  min-height:0;
+  display:grid;
+  grid-template-columns:minmax(130px,230px) minmax(0,1fr) minmax(160px,250px);
+  gap:12px;
+}
+.side{
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  gap:18px;
+}
+.side h2{margin:0;color:var(--mint)}
+.side p{margin:0;color:var(--dim);line-height:1.6;font-size:.94rem}
+.rule-tile{
+  aspect-ratio:1;
+  width:min(110px,70%);
+  margin:8px auto;
+  border:1px solid var(--line2);
+  background:rgba(104,242,210,.04);
+  position:relative;
+  box-shadow:0 0 25px rgba(104,242,210,.1) inset;
+}
+.rule-tile:before,.rule-tile:after{
+  content:"";
+  position:absolute;
+  background:var(--mint);
+  box-shadow:0 0 16px rgba(104,242,210,.7);
+}
+.rule-tile:before{height:10px;left:13%;right:13%;top:calc(50% - 5px)}
+.rule-tile:after{width:10px;top:13%;bottom:13%;left:calc(50% - 5px)}
+.board-wrap{
+  min-height:0;
+  display:grid;
+  place-items:center;
+  position:relative;
+  border:1px solid var(--line);
+  background:radial-gradient(circle at center,rgba(104,242,210,.06),transparent 62%),rgba(6,23,25,.62);
+}
+canvas{
+  display:block;
+  width:min(100%,calc(100vh - 196px));
+  height:min(100%,calc(100vh - 196px));
+  aspect-ratio:1;
+  touch-action:none;
+}
+.overlay{
+  position:absolute;
+  inset:0;
+  display:none;
+  place-items:center;
+  background:rgba(6,23,25,.82);
+  backdrop-filter:blur(4px);
+  padding:22px;
+}
+.overlay.show{display:grid}
+.modal{
+  width:min(430px,100%);
+  border:1px solid var(--line2);
+  background:linear-gradient(180deg,rgba(13,43,48,.96),rgba(6,23,25,.96));
+  padding:24px;
+  text-align:center;
+  box-shadow:0 24px 80px rgba(0,0,0,.45),0 0 60px rgba(104,242,210,.12) inset;
+}
+.modal h2{
+  margin:0 0 10px;
+  font-family:var(--mono);
+  letter-spacing:.18em;
+  color:var(--mint);
+  font-size:1.6rem;
+}
+.modal p{margin:0 0 18px;color:var(--dim);line-height:1.65}
+.beacons{gap:12px}
+.beacon{
+  border-top:1px solid rgba(104,242,210,.16);
+  padding-top:13px;
+  display:grid;
+  grid-template-columns:40px 1fr;
+  gap:12px;
+  align-items:center;
+}
+.beacon:first-of-type{border-top:0}
+.beacon-dot{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:2px solid currentColor;
+  box-shadow:0 0 18px currentColor;
+  position:relative;
+}
+.beacon-dot:before,.beacon-dot:after{
+  content:"";
+  position:absolute;
+  background:currentColor;
+  opacity:.65;
+}
+.beacon-dot:before{height:2px;left:-8px;right:-8px;top:15px}
+.beacon-dot:after{width:2px;top:-8px;bottom:-8px;left:15px}
+.beacon-title{
+  font-family:var(--mono);
+  letter-spacing:.12em;
+  color:var(--ink);
+  font-size:.78rem;
+}
+.beacon-state{
+  font-family:var(--mono);
+  letter-spacing:.16em;
+  color:var(--faint);
+  font-size:.66rem;
+  margin-top:4px;
+}
+.beacon.on .beacon-state{color:var(--good)}
+.bottombar{
+  grid-template-columns:1fr auto;
+}
+.status{
+  min-height:64px;
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  color:var(--dim);
+  font-family:var(--mono);
+  letter-spacing:.08em;
+  font-size:.82rem;
+}
+.controls{
+  min-height:64px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px;
+}
+.btn{
+  border:1px solid var(--line2);
+  color:var(--mint);
+  background:rgba(104,242,210,.06);
+  min-height:42px;
+  padding:0 16px;
+  font-family:var(--mono);
+  font-weight:800;
+  letter-spacing:.1em;
+  cursor:pointer;
+}
+.btn:hover,.btn:focus-visible{outline:none;background:rgba(104,242,210,.14);border-color:var(--mint)}
+.btn:active{transform:translateY(1px)}
+.prov{
+  margin-top:auto;
+  line-height:1.8;
+  color:var(--faint);
+}
+.prov b{color:var(--dim)}
+@media (max-width:900px){
+  html,body{overflow:auto}
+  .app{min-height:100dvh;padding:10px}
+  .topbar{grid-template-columns:1fr 1fr 1fr;gap:8px}
+  .brand{grid-column:1/-1;min-height:64px}
+  .main{grid-template-columns:1fr;grid-template-rows:auto auto auto}
+  .side{display:none}
+  .beacons{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    padding:10px;
+  }
+  .beacon{border-top:0;padding-top:0;grid-template-columns:28px 1fr;gap:8px}
+  .beacon-dot{width:24px;height:24px}
+  .beacon-dot:before{top:10px}.beacon-dot:after{left:10px}
+  .board-wrap{min-height:auto}
+  canvas{width:min(100%,92vw);height:auto}
+  .bottombar{grid-template-columns:1fr}
+  .controls{justify-content:center;flex-wrap:wrap}
+  .btn{flex:1 1 92px;padding:0 10px}
+}
+@media (max-width:560px){
+  .topbar{grid-template-columns:1fr 1fr}
+  .stat{min-height:58px}
+  .brand{padding:0 14px}
+  h1{font-size:1.75rem;letter-spacing:.22em}
+  .charge-meter{max-width:120px}
+  .beacons{grid-template-columns:1fr}
+  .beacon-title{font-size:.72rem}
+  .status{min-height:52px;font-size:.68rem;line-height:1.45}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="topbar" aria-label="Game status">
+    <section class="brand"><div class="mark">L</div><h1>LATTICE</h1></section>
+    <section class="stat"><div class="label">LEVEL</div><div class="value" id="level">1</div></section>
+    <section class="stat"><div class="label">CHARGE</div><div class="value" id="chargeText">24</div><div class="charge-meter"><div class="charge-fill" id="chargeFill"></div></div></section>
+    <section class="stat"><div class="label">MOVES</div><div class="value" id="moves">0</div></section>
+    <section class="stat"><div class="label">BEST</div><div class="value" id="best">0</div></section>
+  </header>
+
+  <main class="main">
+    <aside class="side">
+      <h2>ROTATE TILES</h2>
+      <div class="rule-tile" aria-hidden="true"></div>
+      <p>Connect the charged core to every beacon. Each rotation costs one charge. Decoy traces are real enough to distract you.</p>
+      <p>Keyboard: arrows or WASD move, Space or Enter rotates.</p>
+    </aside>
+
+    <section class="board-wrap" aria-label="LATTICE game board">
+      <canvas id="board" width="900" height="900"></canvas>
+      <div class="overlay show" id="overlay">
+        <div class="modal">
+          <h2 id="overlayTitle">LATTICE</h2>
+          <p id="overlayText">Rotate circuit tiles. Connect all beacons before charge runs dry.</p>
+          <button class="btn" id="overlayButton">BEGIN</button>
+        </div>
+      </div>
+    </section>
+
+    <aside class="side beacons" id="beaconPanel" aria-label="Beacon status"></aside>
+  </main>
+
+  <footer class="bottombar">
+    <div class="status" id="status">CONNECT ALL BEACONS</div>
+    <div class="controls">
+      <button class="btn" id="newGame">NEW</button>
+      <button class="btn" id="reset">RESET</button>
+      <button class="btn" id="hint">HINT <span id="hints">3</span></button>
+    </div>
+  </footer>
+</div>
+
+<script>
+const canvas=document.getElementById("board");
+const ctx=canvas.getContext("2d");
+const ui={
+  level:document.getElementById("level"),
+  chargeText:document.getElementById("chargeText"),
+  chargeFill:document.getElementById("chargeFill"),
+  moves:document.getElementById("moves"),
+  best:document.getElementById("best"),
+  status:document.getElementById("status"),
+  hints:document.getElementById("hints"),
+  beaconPanel:document.getElementById("beaconPanel"),
+  overlay:document.getElementById("overlay"),
+  overlayTitle:document.getElementById("overlayTitle"),
+  overlayText:document.getElementById("overlayText"),
+  overlayButton:document.getElementById("overlayButton")
+};
+const DIRS=[{x:0,y:-1,bit:1,opp:4},{x:1,y:0,bit:2,opp:8},{x:0,y:1,bit:4,opp:1},{x:-1,y:0,bit:8,opp:2}];
+const COLORS=["#68f2d2","#f7c65a","#5de8ff"];
+const PATH_BITS=[1,2,4,8];
+let game,anim=0;
+
+function rand(seed){
+  let s=seed>>>0;
+  return function(){
+    s=(s*1664525+1013904223)>>>0;
+    return s/4294967296;
+  };
+}
+function choice(rng,arr){return arr[Math.floor(rng()*arr.length)]}
+function rotateMask(mask,turns){
+  let out=mask;
+  for(let t=0;t<turns;t++){
+    let next=0;
+    if(out&1)next|=2;
+    if(out&2)next|=4;
+    if(out&4)next|=8;
+    if(out&8)next|=1;
+    out=next;
+  }
+  return out;
+}
+function key(x,y){return x+","+y}
+function carve(board,a,b){
+  const dx=b.x-a.x,dy=b.y-a.y;
+  let dir=DIRS.find(d=>d.x===dx&&d.y===dy);
+  if(!dir)return;
+  board[a.y][a.x].solution|=dir.bit;
+  board[b.y][b.x].solution|=dir.opp;
+}
+function makePath(rng,size,start,goal){
+  const path=[{x:start.x,y:start.y}];
+  let cur={x:start.x,y:start.y};
+  let guard=0;
+  while((cur.x!==goal.x||cur.y!==goal.y)&&guard++<120){
+    const opts=[];
+    if(cur.x<goal.x)opts.push({x:cur.x+1,y:cur.y});
+    if(cur.x>goal.x)opts.push({x:cur.x-1,y:cur.y});
+    if(cur.y<goal.y)opts.push({x:cur.x,y:cur.y+1});
+    if(cur.y>goal.y)opts.push({x:cur.x,y:cur.y-1});
+    if(rng()<.34){
+      const wander=DIRS.map(d=>({x:cur.x+d.x,y:cur.y+d.y})).filter(p=>p.x>=0&&p.y>=0&&p.x<size&&p.y<size);
+      opts.push(...wander);
+    }
+    const next=choice(rng,opts.filter(p=>p.x>=0&&p.y>=0&&p.x<size&&p.y<size));
+    if(!next)break;
+    cur=next;
+    path.push({x:cur.x,y:cur.y});
+  }
+  return path;
+}
+function generateLevel(level, seedOverride, scoreValue){
+  const size=level<4?6:7;
+  const seed=Number.isFinite(seedOverride)?seedOverride:Date.now()+level*1009+Math.floor(Math.random()*9999);
+  const rng=rand(seed);
+  const board=Array.from({length:size},(_,y)=>Array.from({length:size},(_,x)=>({
+    x,y,solution:0,turns:0,energized:false,route:-1
+  })));
+  const start={x:0,y:Math.floor(size/2)};
+  const rows=[1,Math.floor(size/2),size-2].map(v=>Math.max(0,Math.min(size-1,v)));
+  const goals=rows.map((row,i)=>({x:size-1,y:row,color:COLORS[i],on:false,name:"BEACON "+(i+1)}));
+  for(const goal of goals){
+    const path=makePath(rng,size,start,goal);
+    for(let i=0;i<path.length-1;i++)carve(board,path[i],path[i+1]);
+  }
+  for(let y=0;y<size;y++){
+    for(let x=0;x<size;x++){
+      const tile=board[y][x];
+      for(const d of DIRS){
+        const nx=x+d.x,ny=y+d.y;
+        if(nx>=0&&ny>=0&&nx<size&&ny<size&&rng()<.12){
+          tile.solution|=d.bit;
+        }
+      }
+      if(tile.solution===0)tile.solution=choice(rng,[3,5,6,9,10,12]);
+      tile.turns=Math.floor(rng()*4);
+      if(tile.turns===0&&rng()<.72)tile.turns=1+Math.floor(rng()*3);
+    }
+  }
+  return {
+    level,size,seed,board,start,goals,
+    charge:Math.max(16,27-level),
+    maxCharge:Math.max(16,27-level),
+    moves:0,
+    score:Number.isFinite(scoreValue)?scoreValue:0,
+    levelStartScore:Number.isFinite(scoreValue)?scoreValue:0,
+    hints:Math.max(1,4-Math.floor(level/3)),
+    selected:{x:start.x,y:start.y},
+    state:"ready",
+    message:"CONNECT ALL BEACONS"
+  };
+}
+function currentMask(tile){return rotateMask(tile.solution,tile.turns)}
+function propagate(){
+  const q=[game.start];
+  const seen=new Set([key(game.start.x,game.start.y)]);
+  game.board.flat().forEach(t=>{t.energized=false;t.route=-1});
+  while(q.length){
+    const p=q.shift();
+    const tile=game.board[p.y][p.x];
+    tile.energized=true;
+    const mask=currentMask(tile);
+    for(const d of DIRS){
+      if(!(mask&d.bit))continue;
+      const nx=p.x+d.x,ny=p.y+d.y;
+      if(nx<0||ny<0||nx>=game.size||ny>=game.size)continue;
+      const nt=game.board[ny][nx];
+      if(!(currentMask(nt)&d.opp))continue;
+      const k=key(nx,ny);
+      if(!seen.has(k)){seen.add(k);q.push({x:nx,y:ny});}
+    }
+  }
+  game.goals.forEach((g,i)=>{
+    g.on=game.board[g.y][g.x].energized;
+    if(g.on)game.board[g.y][g.x].route=i;
+  });
+  if(game.goals.every(g=>g.on)&&game.state==="playing"){
+    game.state="won";
+    const bonus=game.charge*12+game.hints*20+game.level*30;
+    game.score+=bonus;
+    saveBest();
+    showOverlay("GRID ALIGNED","All beacons connected. Bonus: "+bonus+".", "NEXT LEVEL");
+    game.message="GRID ALIGNED";
+  }
+}
+function rotateTile(x,y,cost=true){
+  if(game.state!=="playing")return;
+  const tile=game.board[y][x];
+  tile.turns=(tile.turns+1)%4;
+  game.selected={x,y};
+  if(cost){
+    game.moves++;
+    game.charge--;
+    game.score=Math.max(0,game.score+1);
+  }
+  propagate();
+  if(game.charge<=0&&game.state==="playing"){
+    game.state="lost";
+    saveBest();
+    showOverlay("CHARGE EMPTY","The route collapsed before every beacon connected.", "RETRY");
+    game.message="CHARGE EMPTY";
+  }
+  updateUI();
+}
+function useHint(){
+  if(game.state!=="playing"||game.hints<=0)return;
+  const wrong=game.board.flat().filter(t=>t.turns!==0);
+  if(!wrong.length)return;
+  const tile=wrong[Math.floor(Math.random()*wrong.length)];
+  tile.turns=(tile.turns+3)%4;
+  game.hints--;
+  game.charge=Math.max(0,game.charge-1);
+  game.selected={x:tile.x,y:tile.y};
+  game.message="HINT SPENT: ONE TILE NUDGED";
+  propagate();
+  updateUI();
+}
+function showOverlay(title,text,button){
+  ui.overlayTitle.textContent=title;
+  ui.overlayText.textContent=text;
+  ui.overlayButton.textContent=button;
+  ui.overlay.classList.add("show");
+}
+function hideOverlay(){ui.overlay.classList.remove("show")}
+function startPlaying(){
+  if(game.state==="won"){
+    game=generateLevel(game.level+1,null,game.score);
+  }else if(game.state==="lost"){
+    game=generateLevel(game.level,game.seed,0);
+  }
+  game.state="playing";
+  hideOverlay();
+  propagate();
+  updateUI();
+}
+function newRun(){
+  game=generateLevel(1,null,0);
+  game.state="playing";
+  hideOverlay();
+  propagate();
+  updateUI();
+}
+function resetLevel(){
+  const level=game.level,seed=game.seed,score=game.levelStartScore;
+  game=generateLevel(level,seed,score);
+  game.state="playing";
+  hideOverlay();
+  propagate();
+  updateUI();
+}
+function bestScore(){
+  return Number(localStorage.getItem("latticeBest")||0);
+}
+function saveBest(){
+  if(game.score>bestScore())localStorage.setItem("latticeBest",String(game.score));
+}
+function updateUI(){
+  ui.level.textContent=game.level;
+  ui.chargeText.textContent=game.charge;
+  ui.chargeFill.style.transform="scaleX("+Math.max(0,game.charge/game.maxCharge)+")";
+  ui.moves.textContent=game.moves;
+  ui.best.textContent=Math.max(bestScore(),game.score);
+  ui.hints.textContent=game.hints;
+  ui.status.textContent=game.message+" | SCORE "+game.score;
+  ui.beaconPanel.innerHTML=game.goals.map((g,i)=>`
+    <div class="beacon ${g.on?"on":""}" style="color:${g.color}">
+      <div class="beacon-dot"></div>
+      <div><div class="beacon-title">${g.name}</div><div class="beacon-state">${g.on?"CONNECTED":"SEEKING"}</div></div>
+    </div>`).join("")+`<div class="prov">CREATED BY<br><b>CHATGPT CODEX 5.5</b><br>COMPANY: OPENAI<br>SPARK: JARON K. BRAGG</div>`;
+}
+function fitCanvas(){
+  const rect=canvas.getBoundingClientRect();
+  const dpr=Math.min(2,window.devicePixelRatio||1);
+  canvas.width=Math.max(600,Math.floor(rect.width*dpr));
+  canvas.height=Math.max(600,Math.floor(rect.height*dpr));
+}
+function drawTrace(x1,y1,x2,y2,color,active,wide){
+  ctx.save();
+  ctx.lineCap="round";
+  ctx.strokeStyle=color;
+  ctx.lineWidth=wide;
+  ctx.globalAlpha=active?1:.22;
+  ctx.shadowBlur=active?18:0;
+  ctx.shadowColor=color;
+  ctx.beginPath();
+  ctx.moveTo(x1,y1);
+  ctx.lineTo(x2,y2);
+  ctx.stroke();
+  ctx.restore();
+}
+function draw(){
+  fitCanvas();
+  const W=canvas.width,H=canvas.height;
+  const pad=W*.06;
+  const boardSize=W-pad*2;
+  const cell=boardSize/game.size;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle="#061719";
+  ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle="rgba(93,232,255,.08)";
+  ctx.lineWidth=1;
+  for(let i=0;i<18;i++){
+    const p=pad+i*(boardSize/17);
+    ctx.beginPath();ctx.moveTo(p,pad*.45);ctx.lineTo(pad*.45,p);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(W-pad*.45,p);ctx.lineTo(p,H-pad*.45);ctx.stroke();
+  }
+  for(let y=0;y<game.size;y++){
+    for(let x=0;x<game.size;x++){
+      const tile=game.board[y][x];
+      const tx=pad+x*cell,ty=pad+y*cell;
+      const cx=tx+cell/2,cy=ty+cell/2;
+      const active=tile.energized;
+      ctx.fillStyle=active?"rgba(104,242,210,.075)":"rgba(13,43,48,.72)";
+      ctx.strokeStyle=active?"rgba(104,242,210,.9)":"rgba(42,124,131,.72)";
+      ctx.lineWidth=active?3:1.4;
+      ctx.fillRect(tx+3,ty+3,cell-6,cell-6);
+      ctx.strokeRect(tx+3,ty+3,cell-6,cell-6);
+      ctx.fillStyle="rgba(131,189,184,.45)";
+      [[tx+10,ty+10],[tx+cell-10,ty+10],[tx+10,ty+cell-10],[tx+cell-10,ty+cell-10]].forEach(p=>{
+        ctx.beginPath();ctx.arc(p[0],p[1],Math.max(2,cell*.025),0,Math.PI*2);ctx.fill();
+      });
+      const mask=currentMask(tile);
+      const color=active?(tile.route>=0?game.goals[tile.route].color:"#68f2d2"):"#2a7c83";
+      for(const d of DIRS){
+        if(!(mask&d.bit))continue;
+        drawTrace(cx,cy,cx+d.x*cell*.42,cy+d.y*cell*.42,color,active,cell*.09);
+      }
+      ctx.fillStyle=active?"#d9fffa":"#3c7779";
+      ctx.shadowColor=active?color:"transparent";
+      ctx.shadowBlur=active?14:0;
+      ctx.beginPath();ctx.arc(cx,cy,Math.max(4,cell*.055),0,Math.PI*2);ctx.fill();
+      ctx.shadowBlur=0;
+    }
+  }
+  const sx=pad+game.start.x*cell+cell/2,sy=pad+game.start.y*cell+cell/2;
+  ctx.strokeStyle="#ff745f";ctx.fillStyle="rgba(255,116,95,.18)";ctx.lineWidth=4;ctx.shadowColor="#ff745f";ctx.shadowBlur=24;
+  ctx.beginPath();ctx.arc(sx,sy,cell*.28,0,Math.PI*2);ctx.fill();ctx.stroke();
+  ctx.fillStyle="#ff745f";ctx.font="900 "+Math.floor(cell*.22)+"px "+getComputedStyle(document.body).fontFamily;ctx.textAlign="center";ctx.textBaseline="middle";ctx.fillText("CORE",sx,sy);
+  ctx.shadowBlur=0;
+  for(const g of game.goals){
+    const gx=pad+g.x*cell+cell/2,gy=pad+g.y*cell+cell/2;
+    ctx.strokeStyle=g.color;ctx.fillStyle=g.on?g.color:"rgba(13,43,48,.8)";ctx.lineWidth=4;ctx.shadowColor=g.color;ctx.shadowBlur=g.on?28:8;
+    ctx.beginPath();ctx.arc(gx,gy,cell*.25,0,Math.PI*2);ctx.stroke();
+    ctx.beginPath();ctx.arc(gx,gy,cell*.1,0,Math.PI*2);ctx.fill();
+    ctx.shadowBlur=0;
+  }
+  const sel=game.selected;
+  ctx.strokeStyle="#f7c65a";ctx.lineWidth=4;ctx.setLineDash([cell*.12,cell*.08]);
+  ctx.strokeRect(pad+sel.x*cell+8,pad+sel.y*cell+8,cell-16,cell-16);
+  ctx.setLineDash([]);
+  anim=requestAnimationFrame(draw);
+}
+function canvasPoint(evt){
+  const rect=canvas.getBoundingClientRect();
+  const x=(evt.clientX-rect.left)/rect.width;
+  const y=(evt.clientY-rect.top)/rect.height;
+  const pad=.06;
+  const bx=(x-pad)/(1-pad*2),by=(y-pad)/(1-pad*2);
+  const tx=Math.floor(bx*game.size),ty=Math.floor(by*game.size);
+  if(tx<0||ty<0||tx>=game.size||ty>=game.size)return null;
+  return {x:tx,y:ty};
+}
+canvas.addEventListener("pointerdown",evt=>{
+  evt.preventDefault();
+  const p=canvasPoint(evt);
+  if(p)rotateTile(p.x,p.y,true);
+});
+window.addEventListener("keydown",evt=>{
+  if(!game||game.state!=="playing")return;
+  const s=game.selected;
+  let used=true;
+  if(evt.key==="ArrowLeft"||evt.key==="a")s.x=Math.max(0,s.x-1);
+  else if(evt.key==="ArrowRight"||evt.key==="d")s.x=Math.min(game.size-1,s.x+1);
+  else if(evt.key==="ArrowUp"||evt.key==="w")s.y=Math.max(0,s.y-1);
+  else if(evt.key==="ArrowDown"||evt.key==="s")s.y=Math.min(game.size-1,s.y+1);
+  else if(evt.key===" "||evt.key==="Enter")rotateTile(s.x,s.y,true);
+  else used=false;
+  if(used){evt.preventDefault();updateUI();}
+});
+document.getElementById("newGame").addEventListener("click",newRun);
+document.getElementById("reset").addEventListener("click",resetLevel);
+document.getElementById("hint").addEventListener("click",useHint);
+ui.overlayButton.addEventListener("click",startPlaying);
+window.addEventListener("resize",fitCanvas);
+
+game=generateLevel(1,null,0);
+ui.best.textContent=bestScore();
+propagate();
+updateUI();
+draw();
+
+window.render_game_to_text=function(){
+  return "STATE:"+game.state+" LEVEL:"+game.level+" CHARGE:"+game.charge+" MOVES:"+game.moves+" SCORE:"+game.score+" BEACONS:"+game.goals.map(g=>g.on?"1":"0").join("");
+};
+window.advanceTime=function(){propagate();updateUI();};
+</script>
+</body>
+</html>

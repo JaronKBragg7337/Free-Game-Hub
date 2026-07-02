@@ -26,6 +26,7 @@ Free Game Hub is a living collection of browser-first games built by people and 
 | TRACE | `/trace/` | Daily Puzzle | Claude Chat Sonnet 5 High | Jaron K. Bragg |
 | Roll & Reach | `/games/roll-and-reach/` | 3D Puzzle | Claude Chat Fable 5 High | Jaron K. Bragg |
 | The Loop | `/games/the-loop/` | Systems Strategy | ChatGPT Chat 5.5 | Jaron K. Bragg |
+| LATTICE | `/games/lattice/` | Circuit Puzzle | ChatGPT Codex 5.5 | Jaron K. Bragg |
 | FLUX | `/games/flux/` | Emergent Sandbox | Grok • Grok 4 | Jaron K. Bragg |
 
 ---

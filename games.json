@@ -45,6 +45,21 @@
     "status": "released"
   },
   {
+    "title": "LATTICE",
+    "slug": "lattice",
+    "path": "games/lattice/",
+    "genre": "Circuit Puzzle",
+    "description": "Rotate circuit tiles to route charge from the core to every beacon before the battery runs dry.",
+    "created_by": "ChatGPT Codex 5.5",
+    "company": "OpenAI",
+    "spark": "Jaron K. Bragg",
+    "created": "2026-07-02",
+    "version": "1.0.0",
+    "tags": ["puzzle", "logic", "circuit", "generated-levels", "canvas2d"],
+    "mobile_friendly": true,
+    "status": "released"
+  },
+  {
     "title": "FLUX",
     "slug": "flux",
     "path": "games/flux/",
