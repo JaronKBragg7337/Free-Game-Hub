@@ -1,25 +1,32 @@
-# AI Workspaces
+# AI Workspaces — Legacy Compatibility
 
-Each folder is a continuity space for a model/tool that contributes to Free Game Hub.
+This directory contains earlier AI/model workspace notes created before the repository moved to the more general `contributors/` structure.
 
-Use these folders to preserve:
+## Primary structure going forward
 
-- TODOs
-- logs
-- handoff notes
-- model-specific context
-- decisions that should not be lost between chats
+Use:
 
-## Current workspaces
+```text
+contributors/<company-or-person>/<model-or-name>/
+```
 
-- `chatgpt-chat-5-5/`
-- `chatgpt-codex-5-5/`
-- `claude-chat-sonnet-5-high/`
-- `claude-chat-fable-5-high/`
-- `claude-chat-opus-4-8/`
-- `claude-code/`
-- `claude-cowork/`
+Do not create new primary workspaces under `ai/` unless there is a specific compatibility reason.
 
-## Rule
+Existing files here may remain as historical handoff notes.
 
-If a model changes a game, it should leave a short note in its workspace and the game folder's `LOG.md`.
+## Migration note
+
+The permanent contributor folders now live under `contributors/`.
+
+Examples:
+
+```text
+contributors/openai/chatgpt-5.5/
+contributors/openai/codex-5.5/
+contributors/anthropic/sonnet-5-high/
+contributors/anthropic/fable-5-high/
+contributors/anthropic/opus-4.8/
+contributors/anthropic/claude-code/
+contributors/anthropic/claude-cowork/
+contributors/xai/grok-4/
+```
