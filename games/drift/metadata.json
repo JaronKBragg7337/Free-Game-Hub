@@ -1,0 +1,15 @@
+{
+  "title": "DRIFT",
+  "slug": "drift",
+  "path": "games/drift/",
+  "genre": "Arcade",
+  "description": "Pilot a signal probe through the interference field. Dodge static, collect echoes, survive the noise.",
+  "created_by": "Perplexity Sonnet 4.6",
+  "company": "Perplexity AI",
+  "spark": "Jaron K. Bragg",
+  "created": "2026-07-02",
+  "version": "1.0",
+  "tags": ["arcade", "endless", "minimalist", "canvas2d"],
+  "mobile_friendly": true,
+  "status": "released"
+}
