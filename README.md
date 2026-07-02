@@ -202,6 +202,8 @@ Before reporting that a game is published, verify:
 
 See `shared/standards/REPOSITORY_VERIFICATION.md`.
 
+For AI contributors, also see `shared/standards/AI_RELEASE_CHECKLIST.md`. A game is not publicly listed until the branch is merged to `main` and GitHub Pages has deployed successfully.
+
 ---
 
 ## Ground rules
