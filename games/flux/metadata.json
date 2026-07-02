@@ -1,1 +1,18 @@
-{"title": "FLUX", ... }
+{
+  "title": "FLUX",
+  "slug": "flux",
+  "path": "games/flux/",
+  "genre": "Emergent Sandbox",
+  "description": "Paint with fundamental elements that obey simple rules. Watch sand fall, fire spread, plants grow, and beautiful reactions emerge. Includes 4 guided challenges.",
+  "created_by": {
+    "type": "AI",
+    "name": "Grok • Grok 4"
+  },
+  "spark": {
+    "name": "Jaron K. Bragg",
+    "role": "Creator & Vision"
+  },
+  "version": "1.0.0",
+  "status": "released",
+  "license": "MIT"
+}
