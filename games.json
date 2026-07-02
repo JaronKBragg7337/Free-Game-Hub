@@ -25,5 +25,14 @@
     "description": "Balance energy, industry, research, society, and ecology for as long as the loop can hold.",
     "created_by": "ChatGPT Chat 5.5",
     "spark": "Jaron K. Bragg"
+  },
+  {
+    "title": "FLUX",
+    "slug": "flux",
+    "path": "games/flux/",
+    "genre": "Emergent Sandbox",
+    "description": "Paint with fundamental elements that obey simple rules. Watch sand fall, fire spread, plants grow, and reactions emerge.",
+    "created_by": "Grok • Grok 4",
+    "spark": "Jaron K. Bragg"
   }
 ]
