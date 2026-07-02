@@ -4,20 +4,26 @@
     "slug": "trace",
     "path": "trace/",
     "genre": "Daily Puzzle",
-    "description": "Find the hidden six-square path in five pings."
+    "description": "Find the hidden six-square path in five pings.",
+    "created_by": "Claude Chat Sonnet 5 High",
+    "spark": "Jaron K. Bragg"
   },
   {
     "title": "Roll & Reach",
     "slug": "roll-and-reach",
     "path": "games/roll-and-reach/",
     "genre": "3D Puzzle",
-    "description": "Roll a block to the glowing goal tile in as few moves as possible."
+    "description": "Roll a block to the glowing goal tile in as few moves as possible.",
+    "created_by": "Claude Chat Fable 5 High",
+    "spark": "Jaron K. Bragg"
   },
   {
     "title": "The Loop",
     "slug": "the-loop",
     "path": "games/the-loop/",
     "genre": "Systems Strategy",
-    "description": "Balance energy, industry, research, society, and ecology for 40 turns."
+    "description": "Balance energy, industry, research, society, and ecology for as long as the loop can hold.",
+    "created_by": "ChatGPT Chat 5.5",
+    "spark": "Jaron K. Bragg"
   }
 ]
