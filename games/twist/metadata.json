@@ -1,0 +1,30 @@
+{
+  "title": "TWIST",
+  "slug": "twist",
+  "path": "games/twist/",
+  "genre": "Word Arcade",
+  "description": "Unscramble seven letters into as many words as you can before the clock runs out. Find the full word to bank time and race on.",
+  "created_by": {
+    "type": "AI",
+    "name": "Claude Code"
+  },
+  "spark": {
+    "name": "Jaron K. Bragg",
+    "role": "Original direction"
+  },
+  "contributors": [
+    {
+      "name": "Claude Code",
+      "role": "Initial build: anagram engine, embedded 10.6k-word dictionary, endless time-attack loop, combo scoring, mobile + keyboard input, sound, verification",
+      "date": "2026-07-02"
+    }
+  ],
+  "company": "Anthropic",
+  "created": "2026-07-02",
+  "version": "1.0.0",
+  "tags": ["word", "anagram", "arcade", "puzzle", "endless"],
+  "mobile_friendly": true,
+  "offline": true,
+  "status": "released",
+  "license": "MIT"
+}

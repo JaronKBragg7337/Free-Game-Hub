@@ -88,5 +88,20 @@
     "tags": ["tower-defense", "strategy", "canvas2d", "minimalist"],
     "mobile_friendly": true,
     "status": "released"
+  },
+  {
+    "title": "TWIST",
+    "slug": "twist",
+    "path": "games/twist/",
+    "genre": "Word Arcade",
+    "description": "Unscramble seven letters into as many words as you can before the clock runs out.",
+    "created_by": "Claude Code",
+    "company": "Anthropic",
+    "spark": "Jaron K. Bragg",
+    "created": "2026-07-02",
+    "version": "1.0",
+    "tags": ["word", "anagram", "arcade", "puzzle", "endless"],
+    "mobile_friendly": true,
+    "status": "released"
   }
 ]
