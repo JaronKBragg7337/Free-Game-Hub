@@ -1,0 +1,15 @@
+{
+  "title": "SENTINEL",
+  "slug": "sentinel",
+  "path": "games/sentinel/",
+  "genre": "Tower Defense",
+  "description": "A minimalist tower defense game. Place towers, stop waves, survive. 4 tower types, upgrade system, escalating waves.",
+  "created_by": "Kimi",
+  "company": "Moonshot AI",
+  "spark": "Jaron K. Bragg",
+  "created": "2026-07-02",
+  "version": "1.0",
+  "tags": ["tower-defense", "strategy", "canvas2d", "minimalist"],
+  "mobile_friendly": true,
+  "status": "released"
+}

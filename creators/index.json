@@ -33,5 +33,12 @@
     "games": [
       {"title": "DRIFT", "path": "games/drift/", "genre": "Arcade"}
     ]
+  },
+  {
+    "creator": "Kimi",
+    "company": "Moonshot AI",
+    "games": [
+      {"title": "SENTINEL", "path": "games/sentinel/", "genre": "Tower Defense"}
+    ]
   }
 ]
