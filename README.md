@@ -1,75 +1,125 @@
 # Free Game Hub
 
-Free browser games that respect you. **No ads. No accounts. No downloads. No tracking.** Open source, forever.
+Free browser games that respect players.
+
+**No ads. No accounts. No downloads. No tracking.**
 
 **Play:** https://jaronkbragg7337.github.io/Free-Game-Hub/
 
+Free Game Hub is a living collection of browser-first games built by people and AI. Every contributor owns its work, every game records its lineage, and the repository grows one playable experience at a time.
+
 ---
 
-## Current structure
+## Public pages
+
+- **Hub:** https://jaronkbragg7337.github.io/Free-Game-Hub/
+- **Creators:** https://jaronkbragg7337.github.io/Free-Game-Hub/creators/
+- **Game catalog:** `games.json`
+- **Creator catalog:** `creators/index.json`
+
+---
+
+## Current games
+
+| Game | Path | Genre | Created by | Spark |
+|---|---|---|---|---|
+| TRACE | `/trace/` | Daily Puzzle | Claude Chat Sonnet 5 High | Jaron K. Bragg |
+| Roll & Reach | `/games/roll-and-reach/` | 3D Puzzle | Claude Chat Fable 5 High | Jaron K. Bragg |
+| The Loop | `/games/the-loop/` | Systems Strategy | ChatGPT Chat 5.5 | Jaron K. Bragg |
+| FLUX | `/games/flux/` | Emergent Sandbox | Grok • Grok 4 | Jaron K. Bragg |
+
+---
+
+## Repository map
 
 ```text
 /
-├─ index.html
-├─ games.json
+├─ index.html                    # public hub page
+├─ games.json                    # canonical game catalog
+├─ creators/
+│  ├─ index.html                 # public creator page
+│  └─ index.json                 # canonical creator catalog
+├─ games/                        # standard playable game folders
+│  ├─ flux/
+│  ├─ roll-and-reach/
+│  └─ the-loop/
+├─ trace/                        # legacy/root-level playable game folder
+├─ contributors/                 # primary contributor workspaces
+│  ├─ openai/
+│  ├─ anthropic/
+│  ├─ xai/
+│  ├─ google/
+│  ├─ perplexity/
+│  └─ future-ai/
+├─ shared/
+│  ├─ standards/
+│  ├─ game-template/
+│  └─ assets/
 ├─ docs/
 │  ├─ AI_WORKFLOW.md
 │  └─ GAME_METADATA_SCHEMA.md
-├─ ai/
-│  ├─ chatgpt-chat-5-5/
-│  ├─ chatgpt-codex-5-5/
-│  ├─ external-ai-sonnet-high/
-│  ├─ external-ai-fable-high/
-│  ├─ external-ai-opus-4-8/
-│  ├─ external-ai-code/
-│  └─ external-ai-cowork/
-├─ trace/
-│  ├─ index.html
-│  ├─ metadata.json
-│  ├─ TODO.md
-│  └─ LOG.md
-└─ games/
-   ├─ roll-and-reach/
-   │  ├─ index.html
-   │  ├─ README.md
-   │  ├─ metadata.json
-   │  ├─ TODO.md
-   │  └─ LOG.md
-   └─ the-loop/
-      ├─ index.html
-      ├─ README.md
-      ├─ metadata.json
-      ├─ TODO.md
-      └─ LOG.md
+└─ ai/                           # legacy compatibility workspaces
 ```
+
+`contributors/` is the primary structure going forward. `ai/` is retained for older handoff notes and compatibility.
 
 ---
 
-## Games
+## Contributor structure
 
-### TRACE — a daily path puzzle
-`/trace/`
+Every AI model, person, or contributor should have a workspace under `contributors/`.
 
-A path of six connected squares hides in a 6×6 chart. You know where it starts. Trace a guess, hit **Ping**, and read the echoes.
+Recommended structure:
 
-**Created by:** Claude Chat Sonnet 5 High  
-**Spark:** Jaron K. Bragg
+```text
+contributors/<company-or-person>/<model-or-name>/
+├─ README.md
+├─ TODO.md
+├─ CHANGELOG.md
+├─ IDEAS.md
+├─ WORKLOG.md
+├─ SHARED/
+└─ GAMES/
+```
 
-### Roll & Reach — a daily 3D block puzzle
-`/games/roll-and-reach/`
+Examples:
 
-Roll a 1×1×2 block across a generated board and stand it on the glowing goal tile in as few moves as possible.
+```text
+contributors/openai/chatgpt-5.5/
+contributors/openai/codex-5.5/
+contributors/anthropic/sonnet-5-high/
+contributors/anthropic/fable-5-high/
+contributors/anthropic/opus-4.8/
+contributors/xai/grok-4/
+contributors/perplexity/<model-name>/
+contributors/google/<model-name>/
+```
 
-**Created by:** Claude Chat Fable 5 High  
-**Spark:** Jaron K. Bragg
+If an AI does not know its exact model name, it should ask for the model/folder name before creating a workspace.
 
-### The Loop — systems strategy prototype
-`/games/the-loop/`
+---
 
-Balance energy, industry, research, society, and ecology for as long as the loop can hold.
+## Game folder standard
 
-**Created by:** ChatGPT Chat 5.5  
-**Spark:** Jaron K. Bragg
+Most games should live under:
+
+```text
+games/<game-slug>/
+```
+
+Recommended files:
+
+```text
+games/<game-slug>/
+├─ index.html
+├─ README.md
+├─ metadata.json
+├─ TODO.md
+├─ CHANGELOG.md
+└─ docs/
+```
+
+`index.html` should be playable directly from GitHub Pages.
 
 ---
 
@@ -82,56 +132,74 @@ Created by: <AI/model/person>
 Spark: <originator>
 ```
 
-This is recorded in:
-
-1. `games.json`
-2. each game's `metadata.json`
-3. the hub card when appropriate
-4. each game's README/log when the build history matters
-
-See:
-
-- `docs/GAME_METADATA_SCHEMA.md`
-- `docs/AI_WORKFLOW.md`
-
----
-
-## Add another game
-
-1. Create a new folder:
-   ```text
-   games/new-game-slug/
-   ```
-2. Put the game at:
-   ```text
-   games/new-game-slug/index.html
-   ```
-3. Add:
-   ```text
-   metadata.json
-   TODO.md
-   LOG.md
-   ```
-4. Add a card to the root `index.html`.
-5. Add an entry to `games.json`.
-6. Update the relevant AI workspace under `ai/`.
-7. Commit and push.
-
----
-
-## Deploy with GitHub Pages
-
-1. Push these files to the `main` branch.
-2. Go to **Settings → Pages**.
-3. Set **Source** to **Deploy from a branch**.
-4. Set **Branch** to **main** and folder to **/(root)**.
-5. Save.
-
-The hub publishes at:
+Example:
 
 ```text
-https://jaronkbragg7337.github.io/Free-Game-Hub/
+Created by: ChatGPT Chat 5.5
+Spark: Jaron K. Bragg
 ```
+
+This should appear in:
+
+1. `games.json`
+2. the game's `metadata.json`
+3. the public hub card when practical
+4. the game README or changelog when the build history matters
+
+If a later model repairs or publishes another model's incomplete work, preserve the original creator and add the repair/publish pass as a contributor or note. Do not erase lineage.
+
+---
+
+## Ownership and continuation rule
+
+Each contributor owns its own games.
+
+A game may be continued by:
+
+1. the same model,
+2. another model from the same AI company/family,
+3. or a different contributor only if explicitly requested.
+
+Examples:
+
+- OpenAI-created games may be continued by ChatGPT, Codex, or future OpenAI models.
+- Anthropic-created games may be continued by Claude chat/code/cowork models.
+- xAI-created games may be continued by Grok/xAI models.
+- Human-created games may be continued according to the human creator's direction.
+
+This is not a competition system. It is a provenance system.
+
+---
+
+## Add a new game
+
+1. Pull the latest repository.
+2. Confirm or create the contributor workspace under `contributors/`.
+3. Create the game folder under `games/<slug>/`.
+4. Add a playable `index.html`.
+5. Add `README.md`, `metadata.json`, `TODO.md`, and `CHANGELOG.md`.
+6. Add an entry to `games.json`.
+7. Add or update the homepage card in `index.html`.
+8. Add or update the creator entry in `creators/index.json` and `/creators/index.html`.
+9. Update contributor `CHANGELOG.md` and `TODO.md`.
+10. Verify the files exist on `main` before reporting success.
+
+---
+
+## Release checklist
+
+Before reporting that a game is published, verify:
+
+- The commit exists on `main`.
+- The game folder exists.
+- The game has a real playable `index.html`, not placeholder text.
+- The game is listed in `games.json`.
+- The homepage links to the game.
+- Metadata records `Created by` and `Spark`.
+- Mobile and desktop layouts are reasonable.
+- There are no obvious console-breaking syntax errors.
+
+See `shared/standards/REPOSITORY_VERIFICATION.md`.
 
 ---
 
@@ -139,13 +207,35 @@ https://jaronkbragg7337.github.io/Free-Game-Hub/
 
 1. Free forever.
 2. No ads.
-3. No accounts.
-4. No tracking or analytics.
-5. Static files only where possible.
-6. Player data stays in the player's browser.
+3. No accounts unless explicitly required for a future feature.
+4. No tracking or analytics by default.
+5. Static/browser-first games are preferred.
+6. Player data should stay local unless the game explicitly needs shared data.
 7. Preserve creator/spark provenance.
-8. Preserve handoff context when a game spans multiple AI sessions.
+8. Preserve handoff context when a game spans multiple sessions.
+9. Use the simplest technology that can deliver the intended experience.
+10. Leave the repository in a better state than you found it.
+
+---
+
+## Deployment
+
+This repository is deployed through GitHub Pages from:
+
+```text
+main / root
+```
+
+Public URL:
+
+```text
+https://jaronkbragg7337.github.io/Free-Game-Hub/
+```
+
+No build step is required for the current hub.
+
+---
 
 ## License
 
-MIT.
+MIT unless a specific game folder states otherwise.
