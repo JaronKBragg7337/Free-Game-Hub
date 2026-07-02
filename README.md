@@ -11,12 +11,36 @@ Free browser games that respect you. **No ads. No accounts. No downloads. No tra
 ```text
 /
 ├─ index.html
+├─ games.json
+├─ docs/
+│  ├─ AI_WORKFLOW.md
+│  └─ GAME_METADATA_SCHEMA.md
+├─ ai/
+│  ├─ chatgpt-chat-5-5/
+│  ├─ chatgpt-codex-5-5/
+│  ├─ external-ai-sonnet-high/
+│  ├─ external-ai-fable-high/
+│  ├─ external-ai-opus-4-8/
+│  ├─ external-ai-code/
+│  └─ external-ai-cowork/
 ├─ trace/
-│  └─ index.html
+│  ├─ index.html
+│  ├─ metadata.json
+│  ├─ TODO.md
+│  └─ LOG.md
 └─ games/
-   └─ roll-and-reach/
+   ├─ roll-and-reach/
+   │  ├─ index.html
+   │  ├─ README.md
+   │  ├─ metadata.json
+   │  ├─ TODO.md
+   │  └─ LOG.md
+   └─ the-loop/
       ├─ index.html
-      └─ README.md
+      ├─ README.md
+      ├─ metadata.json
+      ├─ TODO.md
+      └─ LOG.md
 ```
 
 ---
@@ -28,25 +52,47 @@ Free browser games that respect you. **No ads. No accounts. No downloads. No tra
 
 A path of six connected squares hides in a 6×6 chart. You know where it starts. Trace a guess, hit **Ping**, and read the echoes.
 
-Features:
-- Daily deterministic puzzle
-- Five guesses
-- Streaks, stats, archive, and practice mode
-- Single HTML file
-- No backend, accounts, ads, analytics, or tracking
+**Created by:** Claude Chat Sonnet 5 High  
+**Spark:** Jaron K. Bragg
 
 ### Roll & Reach — a daily 3D block puzzle
 `/games/roll-and-reach/`
 
 Roll a 1×1×2 block across a generated board and stand it on the glowing goal tile in as few moves as possible.
 
-Features:
-- Daily generated 3D puzzle
-- Practice mode
-- Streak tracking and daily lock
-- Undo, reset, mute, share result
-- Three.js from CDN; no build step
-- Local-only save data
+**Created by:** Claude Chat Fable 5 High  
+**Spark:** Jaron K. Bragg
+
+### The Loop — systems strategy prototype
+`/games/the-loop/`
+
+Balance energy, industry, research, society, and ecology for as long as the loop can hold.
+
+**Created by:** ChatGPT Chat 5.5  
+**Spark:** Jaron K. Bragg
+
+---
+
+## Provenance standard
+
+Every game should record:
+
+```text
+Created by: <AI/model/person>
+Spark: <originator>
+```
+
+This is recorded in:
+
+1. `games.json`
+2. each game's `metadata.json`
+3. the hub card when appropriate
+4. each game's README/log when the build history matters
+
+See:
+
+- `docs/GAME_METADATA_SCHEMA.md`
+- `docs/AI_WORKFLOW.md`
 
 ---
 
@@ -60,18 +106,16 @@ Features:
    ```text
    games/new-game-slug/index.html
    ```
-3. Add a card to the root `index.html`:
-   ```html
-   <a class="card" href="games/new-game-slug/">
-     <div class="top">
-       <h2>NEW GAME</h2>
-       <span class="genre">GENRE</span>
-     </div>
-     <p>One-sentence description.</p>
-     <span class="play">▶ PLAY NEW GAME</span>
-   </a>
+3. Add:
+   ```text
+   metadata.json
+   TODO.md
+   LOG.md
    ```
-4. Commit and push.
+4. Add a card to the root `index.html`.
+5. Add an entry to `games.json`.
+6. Update the relevant AI workspace under `ai/`.
+7. Commit and push.
 
 ---
 
@@ -83,7 +127,7 @@ Features:
 4. Set **Branch** to **main** and folder to **/(root)**.
 5. Save.
 
-The hub will publish at:
+The hub publishes at:
 
 ```text
 https://jaronkbragg7337.github.io/Free-Game-Hub/
@@ -99,6 +143,8 @@ https://jaronkbragg7337.github.io/Free-Game-Hub/
 4. No tracking or analytics.
 5. Static files only where possible.
 6. Player data stays in the player's browser.
+7. Preserve creator/spark provenance.
+8. Preserve handoff context when a game spans multiple AI sessions.
 
 ## License
 
