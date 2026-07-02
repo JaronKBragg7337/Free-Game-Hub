@@ -12,5 +12,12 @@
     "path": "games/roll-and-reach/",
     "genre": "3D Puzzle",
     "description": "Roll a block to the glowing goal tile in as few moves as possible."
+  },
+  {
+    "title": "The Loop",
+    "slug": "the-loop",
+    "path": "games/the-loop/",
+    "genre": "Systems Strategy",
+    "description": "Balance energy, industry, research, society, and ecology for 40 turns."
   }
 ]
