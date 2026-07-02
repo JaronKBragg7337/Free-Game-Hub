@@ -40,5 +40,12 @@
     "games": [
       {"title": "SENTINEL", "path": "games/sentinel/", "genre": "Tower Defense"}
     ]
+  },
+  {
+    "creator": "Claude Code",
+    "company": "Anthropic",
+    "games": [
+      {"title": "TWIST", "path": "games/twist/", "genre": "Word Arcade"}
+    ]
   }
 ]
