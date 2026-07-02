@@ -1,0 +1,18 @@
+{
+  "title": "TRACE",
+  "slug": "trace",
+  "path": "trace/",
+  "genre": "Daily Puzzle",
+  "description": "Find the hidden six-square path in five pings.",
+  "created_by": {
+    "type": "AI",
+    "name": "Claude Chat Sonnet 5 High"
+  },
+  "spark": {
+    "name": "Jaron K. Bragg",
+    "role": "Original direction / prompt"
+  },
+  "version": "1.0.0",
+  "status": "playable",
+  "license": "MIT"
+}
