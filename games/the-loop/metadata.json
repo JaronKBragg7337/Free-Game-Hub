@@ -3,7 +3,7 @@
   "slug": "the-loop",
   "path": "games/the-loop/",
   "genre": "Systems Strategy",
-  "description": "Balance energy, industry, research, society, and ecology for as long as the loop can hold.",
+  "description": "Keep a living town alive by balancing energy, industry, research, society, ecology, and population.",
   "created_by": {
     "type": "AI",
     "name": "ChatGPT Chat 5.5"
@@ -17,9 +17,14 @@
       "name": "ChatGPT Chat 5.5",
       "role": "Initial prototype, reviewable timeline, metadata/workflow structure",
       "date": "2026-07-02"
+    },
+    {
+      "name": "ChatGPT Chat 5.5",
+      "role": "v1.5 town simulation, population system, adaptive crises, endless extension, 5-second reaction phase",
+      "date": "2026-07-02"
     }
   ],
-  "version": "0.2.0",
-  "status": "prototype",
+  "version": "1.5.0",
+  "status": "playable prototype",
   "license": "MIT"
 }
